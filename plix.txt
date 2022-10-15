@@ -1,0 +1,173 @@
+Layers:
+
+outer space
+transfer
+transfer rule outer
+transfer rule neighbour
+transfer rule inner
+?
+transfer rule inner info
+transfer rule inner energy
+transfer rule inner matter
+?
+
+gate validities:
+transfer rule outer: only 'c'
+transfer rule inner: only 'c'
+transfer rule neighbour: except 'c'
+
+
+Commands:
+
+step:
+< s | dir >
+
+go:
+< go | dir >
+
+move:
+< m | src | pattern_src | dst | pattern_dst >
+
+use of pattern:
+
+3i . 1i   .  2i .
+.  . 2i   3i .  .
+.  . .    1i .  .
+  src       dst
+
+1i -> 1i, 2i -> 2i, 3i -> 3i
+
+move with polarity:
+< mp | src | pattern_src | dst | pattern_dst | polarity >
+
+polarity:
+0:leave as is
+1:+
+2:-
+
+move all:
+< ma | src | dst >
+
+move all to transfer:
+< mat | src > = < ma | src | Lt >
+
+download:
+< d > = < mat | Lo >
+
+download directional:
+< dd | dir > = < m | Lo | c | Lt | dir >
+
+upload:
+< u > = < ma | Lt | Lo >
+
+upload directional:
+< ud | dir > = < m | Lt | c | Lo | dir >
+
+tunnel:
+< t | src | dst | pattern >
+
+tunnel with polarity:
+< tp | src | dst | pattern | polarity >
+
+tunnel all:
+< ta | src | dst > = < t | src | dst | 511 >
+
+tunnel to transfer:
+< tt | src | pattern > = < t | src | Lt | pattern >
+
+clear transfer from X (element):
+info:     < ci > = < cdi | Lt >
+energy:   < ce > = < cde | Lt >
+material: < cm > = < cdm | Lt >
+
+clear X (destination) from Y (element):
+info:     < cdi > = < ta | dst | Li >
+energy:   < cde > = < ta | dst | Le >
+material: < cdm > = < ta | dst | Lm >
+
+clear all from transfer:
+< c > = <ci> & <ce> & <cm>
+
+clear all from X (destination):
+< cd > = <cdi> & <cde> & <cdm>
+
+membrane/gate states:
+. . .      . . .    . i .  i . i
+. . .      . i .    i i i  . i .
+. . .      . . .    . i .  i . i
+>< closed  <> open  > in   < out
+
+set neighbour gate state:
+< n | gates | state >
+equals, when state =
+close < m | Ltrn | Li | gates >
+open  < m | Ltrn | Li | gates > & < t | Li | Ltrn | gates >
+in    < tp | Le | Ltrn | gates | + >
+out   < tp | Le | Ltrn | gates | - >
+
+close outer membrane:
+<separate> = < cdi | Ltro >
+
+open outer membrane:
+<unify> = <separate> & < t | Li | Ltro | c >
+
+close all membranes:
+<isolate> = < cdi | Ltri > & < cdi | Ltro >
+
+open all membranes:
+<socialize> = <isolate> & < t | Li | Ltri | c > & < t | Li | Ltro | c >
+
+
+spawn a stem cell:
+
+I. build on top of orig cell in space
+
+close transfer:
+  <isolate>
+tunnel 1 material to space:
+  < t | Lm | Lo >
+make activator in space
+  < t | Le | Lo | + >
+  < t | Li | Lo | c >
+step orig cell rightwards:
+  < s | r >
+
+II. build next to orig cell in space
+
+close transfer:
+  <isolate>
+tunnel 1 material to space leftwards:
+  < t | Lm | Lo | l >
+make activator in space
+  < t | Le | Lo | + >
+  < t | Li | Lo | c >
+move activator leftwards:
+  < m | Lo | c | Lo | l
+
+III. pre-build on transfer layer
+
+close transfer:
+  <isolate>
+tunnel 1 material to transfer:
+  < ti | Lm | c >
+make activator in transfer:
+  < ti | Le | + >
+  < ti | Li | c >
+upload transfer:
+  < u >
+step orig cell rightwards:
+  < s | r >
+
+IV. build on transfer layer
+
+close transfer:
+  <isolate>
+tunnel 1 material to transfer:
+  < ti | Lm | c >
+make activator in transfer:
+  < ti | Le | + >
+  < ti | Li | c >
+open transfer:
+  <socialize>
+upload built cell in transfer leftwards:
+  < ud | l >
