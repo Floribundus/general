@@ -117,8 +117,14 @@ close all membranes:
 open all membranes:
 <socialize> = <isolate> & < t | Li | Ltri | c > & < t | Li | Ltro | c >
 
+//close all membranes and gates:
+//<exile> = <isolate> & < cdi | Ltrn >
+//
+//?open all membranes and restore gates:
+//<amnesty> = <exile> & ?
 
-spawn a stem cell:
+
+Spawn a stem cell:
 
 I. build on top of orig cell in space
 
@@ -171,3 +177,39 @@ open transfer:
   <socialize>
 upload built cell in transfer leftwards:
   < ud | l >
+
+
+Copy rule datas:
+
+I. copy one block in space
+
+R[0]() {
+close transfer:
+  R[0]() { <isolate> }
+make activator in space:
+  R[1]() { < t | Le | Lo | + > | < t | Li | Lo | c > }
+make rule block in space:
+  R[2]() { < t | Li | Lo | + > }
+copy:
+  R[3]() {
+    < t | Li | Lo | R[0]{ < r | trav_one | auto | 5 | 0 > } > |
+    R[1]{ < t | Li | Lo | c > | < t | Le | Lo | c > }                   make loader in space
+    < cyc | 8 > |
+    <exit>
+  }
+//end of rule:
+//  R[4]() { <exit> }
+datas to copy:
+  R[5]() { ".:PLIX:." }
+
+
+II. copy one block in transfer
+
+
+III. copy one block in rule
+
+
+R[0]() {
+    R[1]() { <isolate> | < ti | Lm | c > }
+    R[2]() { < ti | Le | + > | < ti | Li | c > }
+    R[3]() { <socialize> | < ud | l > }
