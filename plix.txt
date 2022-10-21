@@ -123,6 +123,20 @@ open all membranes:
 //?open all membranes and restore gates:
 //<amnesty> = <exile> & ?
 
+cycle:
+
+exit:
+< exit | op >
+ops:
+0:reset ptr
+1:increment ptr
+2:keep ptr
+3:reset all ptrs
+
+reference carry / ref next -> returns test:
+tests if next incremention of ref overflows given level
+< rc | ref-of-ref | level = 0 >
+
 
 Spawn a stem cell:
 
@@ -132,7 +146,7 @@ close transfer:
   <isolate>
 tunnel 1 material to space:
   < t | Lm | Lo >
-make activator in space
+make activator in space:
   < t | Le | Lo | + >
   < t | Li | Lo | c >
 step orig cell rightwards:
@@ -144,7 +158,7 @@ close transfer:
   <isolate>
 tunnel 1 material to space leftwards:
   < t | Lm | Lo | l >
-make activator in space
+make activator in space (won't be absorbed, underlying cell is isolated):
   < t | Le | Lo | + >
   < t | Li | Lo | c >
 move activator leftwards:
@@ -186,7 +200,7 @@ I. copy one block in space
 R[0]() {
 close transfer:
   R[0]() { <isolate> }
-make activator in space:
+make activator in space (won't be absorbed, underlying cell is isolated):
   R[1]() { < t | Le | Lo | + > | < t | Li | Lo | c > }
 make rule block in space:
   R[2]() { < t | Li | Lo | + > }
@@ -197,8 +211,8 @@ copy:
     < cyc | 8 > |
     <exit>
   }
-//end of rule:
-//  R[4]() { <exit> }
+end of rule (optional command/data separator):
+  R[4]() { <exit> }
 datas to copy:
   R[5]() { ".:PLIX:." }
 
